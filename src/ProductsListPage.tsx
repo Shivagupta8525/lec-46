@@ -1,28 +1,35 @@
-import {FC, memo, useEffect} from "react";
+import { FC, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { productsLoadingSlector, productsSelector } from "./selectors/ProductSelector";
-import { LoadProductsAction } from "./actions/product";
+import {productsLoadingSelector,productsSelector} from "./selectors/ProductSelector";
+import { LoadProductsAction, ProductsloadedAction } from "./actions/product";
+import axios from "axios";
 
-type ProductsListPageProps ={};
+type ProductsListPageProps = {};
 
-const ProductsListPage:FC<ProductsListPageProps> =(props)=>{
-    const loading=useSelector(productsLoadingSlector);
-    const products = useSelector(productsSelector);
-    const dispatch =useDispatch();
+const ProductsListPage: FC<ProductsListPageProps> = () => {
+  const loading = useSelector(productsLoadingSelector);
+  const products = useSelector(productsSelector);
+  const dispatch = useDispatch();
 
-    useEffect(()=>{
-        dispatch(LoadProductsAction());
-
-    },[])
-return<div>
-{
-    loading && <div className="text-3xl text-indigo-200">Loading....</div>
-}
-{products && products.map((p)=>{
-    return <div className="text-2xl" key={p.id}>{p.title} (RS.{p.price})</div>
-})}
-</div>
+  useEffect(() => {
+    dispatch(LoadProductsAction());
+     axios.get('https://dummyjson.com/products').then((response)=> dispatch(ProductsloadedAction(response.data)));
+  }, []);
+   console.log("product,",products);
+  return (
+    <div>
+      {loading && <div className="text-3xl text-indigo-200">Loading....</div>}
+      {products &&
+        products.map((p) => {
+          return (
+            <div className="text-2xl" key={p.id}>
+              {p.title} (RS.{p.price})
+            </div>
+          );
+        })}
+    </div>
+  );
 };
-ProductsListPage.defaultProps ={}
+// ProductsListPage.defaultProps = {};
 
 export default memo(ProductsListPage);

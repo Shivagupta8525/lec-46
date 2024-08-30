@@ -1,21 +1,26 @@
-import HappyIncrement from "./HappyIncrement"
-import HappyTracker from "./HappyTracker"
+import { Route, Routes } from "react-router-dom"
+// import HappyIncrement from "./HappyIncrement"
+// import HappyTracker from "./HappyTracker"
+// import ProductsListPage from "./ProductsListPage"
+// import SadIncrementor from "./SadIncrementor"
+// import SadTracker from "./SadTracker"
+import OrderListPage from "./OrderListPage"
+import OrderDetailsPage from "./OrderDetailsPage"
 import ProductsListPage from "./ProductsListPage"
-import SadIncrementor from "./SadIncrementor"
-import SadTracker from "./SadTracker"
 
 
 function App() {
   
 
   return (
-    <div className ="p-2 space-y-2">
-    <HappyTracker/>
-    <SadTracker/>
-    <HappyIncrement/>
-    <SadIncrementor/>
-    <ProductsListPage/>
-    </div>
+    <>
+   <Routes>
+    <Route path="/" element={<ProductsListPage />} />
+    <Route path="orders" element={<OrderListPage/>} />
+    <Route path ="orders/:orderId" element={<OrderDetailsPage/>}/>
+   </Routes>
+
+    </>
       )}
 
 export default App
